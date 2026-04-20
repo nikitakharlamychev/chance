@@ -1,0 +1,8 @@
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:system-ui,-apple-system,sans-serif; line-height:1.5; min-height:100vh; }
+a { text-decoration:none; color:inherit; cursor:pointer; }
+button { cursor:pointer; font-family:inherit; }
+.container { max-width:1100px; margin:0 auto; padding:0 1rem; }
+.toast { position:fixed; bottom:1rem; right:1rem; padding:1rem; border-radius:0.75rem; box-shadow:0 10px 25px rgba(0,0,0,0.15); transform:translateY(150%); opacity:0; transition:0.3s; z-index:50; }
+.toast.show { transform:translateY(0); opacity:1; }
+.nav { position:sticky; top:0; z-index:40; backdrop-filter:blur(8px); border-bottom:1px solid var(--border); background:color-mix(in srgb, var(--card) 90%, transparent); }
