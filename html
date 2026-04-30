@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Студия «ВАНИЛЬ»</title>
+    
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Подключение иконок Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Базовые стили */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth; 
+            -webkit-font-smoothing: antialiased;
+            background: #f8f9fa;
+            color: #333;
+        }
+        h1, h2, h3, h4, .font-serif { 
+            font-family: 'Playfair Display', serif; 
+        }
+        iconify-icon { 
+            stroke-width: 1.5; 
+        }
+
+        /* Скрытие стрелок у числовых полей */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type="number"] { 
+            -moz-appearance: textfield; 
+        }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar { 
+            width: 6px; 
+        }
+        ::-webkit-scrollbar-track { 
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb { 
+            background: #d6d3d1; 
+            border-radius: 10px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { 
+            background: #a8a29e; 
+        }
+
+        /* === ГЛАВНЫЙ ЭКРАН === */
+        .split-screen { 
+            height: 100vh; 
+            transition: opacity 0.5s ease; 
+        }
+        .split-half {
+            transition: flex 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            border: 1.5px solid #000000;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) { 
+            .split-half:hover { 
+                flex: 1.15; 
+                animation: hoverTremble 0.4s ease-in-out; 
+                border-color: #1c1917;
+            } 
+        }
+        @keyframes hoverTremble {
+            0%, 100% { transform: translateX(0); }
+            20%      { transform: translateX(-2px); }
+            40%      { transform: translateX(2px); }
+            60%      { transform: translateX(-1.5px); }
+            80%      { transform: translateX(1.5px); }
+        }
+
+        /* Карточки выбора */
+        .flower-card { transition: all 0.2s ease-out; cursor: pointer; }
+        .flower-card.selected { 
+            border-color: #E11D48; 
+            background-color: #FFE4E6; 
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.1);
+        }
+        .density-btn.selected {
+            border-color: #10B981;
+            background-color: #ECFDF5;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+
+        /* Кастомный чекбокс */
+        .custom-checkbox { 
+            appearance: none; 
+            background-color: transparent; 
+            margin: 0; 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.2s ease; 
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 0.375rem;
+            display: grid;
+            place-items: center;
+        }
+        .custom-checkbox:checked { 
+            background-color: currentColor; 
+            border-color: currentColor; 
+        }
+        .custom-checkbox::after {
+            content: "";
+            width: 0.4rem;
+            height: 0.7rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-1px, -1px);
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        .custom-checkbox:checked::after { 
+            opacity: 1; 
+        }
+
+        /* Ползунок площади */
+        .slider-wrapper { 
+            position: relative; 
+            padding: 1.5rem 0; 
+            cursor: pointer; 
+        }
+        input[type="range"] { 
+            -webkit-appearance: none; 
+            background: transparent; 
+            outline: none; 
+            cursor: pointer; 
+            width: 100%; 
+        }
+        input[type="range"]::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            height: 1.5rem; 
+            width: 1.5rem; 
+            border-radius: 9999px; 
+            background: #14B8A6; 
+            cursor: grab; 
+            margin-top: -0.65rem; 
+            box-shadow: 0 3px 8px rgba(20, 184, 166, 0.5); 
+            border: 3px solid white; 
+            transition: transform 0.1s, box-shadow 0.2s; 
+            z-index: 2; 
+            position: relative;
+        }
+        input[type="range"]::-webkit-slider-thumb:active { 
+            transform: scale(1.1); 
+            cursor: grabbing; 
+            box-shadow: 0 5px 15px rgba(20, 184, 166, 0.7); 
+        }
+        input[type="range"]::-webkit-slider-runnable-track { 
+            width: 100%; 
+            height: 0.4rem; 
+            background: #e7e5e4; 
+            border-radius: 9999px; 
+            cursor: pointer; 
+        }
+
+        /* Модальные окна */
+        .modal { 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 0.3s ease; 
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+        }
+        .modal.active { 
+            display: flex; 
+            opacity: 1; 
+        }
+        .modal-content { 
+            transform: translateY(1rem) scale(0.98); 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            max-width: 28rem;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+        .modal.active .modal-content { 
+            transform: translateY(0) scale(1); 
+        }
+
+        /* Анимация портфолио */
+        .portfolio-item { 
+            opacity: 0; 
+            transform: translateY(1rem); 
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .portfolio-item.show { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* Адаптив для мобильных */
+        @media (max-width: 768px) {
+            .split-screen {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+            .split-half {
+                min-height: 50vh;
+                border-radius: 1rem;
+                margin: 0.5rem;
+            }
+            .modal-content {
+                max-width: 95vw;
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Уведомления */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: #1c1917;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            z-index: 100;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            font-size: 0.875rem;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(110%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 selection:bg-rose-200/50">
+
+    <!-- Навигация -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-stone-200/50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="w-10"></div>
+            <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5 cursor-pointer group" onclick="backToMain()">
+                <div class="relative">
+                    <iconify-icon icon="solar:flower-linear" class="text-lg text-[#E11D48] group-hover:rotate-12 transition-transform duration-300"></iconify-icon>
+                    <div class="absolute inset-0 bg-[#E11D48]/10 rounded-full blur-sm group-hover:blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                <span class="font-serif text-base tracking-[0.15em] uppercase font-medium text-stone-900 group-hover:text-[#E11D48] transition-colors">Ваниль</span>
+            </div>
+            <button onclick="toggleCart()" class="relative p-2 text-stone-500 hover:text-stone-900 transition-colors">
+                <iconify-icon icon="solar:cart-large-minimalistic-linear" class="text-xl"></iconify-icon>
+                <span id="cartBadge" class="absolute top-1 right-0 bg-[#E11D48] text-white rounded-full w-4 h-4 text-[0.625rem] flex items-center justify-center font-medium hidden ring-2 ring-white">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Главная: Разделение экрана -->
+    <div id="mainSplit" class="split-screen flex flex-col md:flex-row pt-[4.5rem] p-3 gap-3">
+        <!-- Букеты -->
+        <div onclick="selectService('bouquet')" class="split-half flex-1 bg-gradient-to-br from-rose-200 via-rose-100 to-rose-50 cursor-pointer flex items-center justify-center group relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="text-center z-10 p-8 transform transition-transform duration-500">
+                <iconify-icon icon="solar:flower-linear" class="text-6xl md:text-7xl text-[#E11D48] mb-6 block opacity-90 group-hover:opacity-100 transition-opacity"></iconify-icon>
+                <h2 class="font-serif text-4xl md:text-6xl font-semibold tracking-tight text-stone-900">Заказ букета</h2>
+            </div>
+        </div>
+        <!-- Интерьер -->
+        <div onclick="selectService('interior')" class="split-half flex-1 bg-gradient-to-bl from-emerald-200 via-emerald-100 to-emerald-50 cursor-pointer flex items-center justify-center group relative">
+            <div class="absolute inset-0 bg-gradient-to-bl from-emerald-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="text-center z-10 p-8 transform transition-transform duration-500">
+                <h2 class="font-serif text-4xl md:text-6xl font-semibold tracking-tight text-stone-900">Оформление интерьера</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница: Конструктор букетов -->
+    <div id="bouquetPage" class="hidden min-h-screen pt-28 pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <button onclick="backToMain()" class="mb-10 text-stone-400 hover:text-stone-800 flex items-center gap-2 transition-colors text-sm font-medium">
+                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon> Назад
+            </button>
+            <div class="text-center mb-16">
+                <h1 class="font-serif text-3xl md:text-5xl font-medium tracking-tight text-stone-900 mb-4">Соберите букет</h1>
+                <p class="text-stone-500 font-light text-base md:text-lg">Создайте уникальную композицию — стоимость обновится автоматически</p>
+            </div>
+
+            <!-- Хиты продаж -->
+            <section class="mb-24">
+                <h2 class="font-serif text-xl md:text-2xl font-medium tracking-tight text-stone-900 mb-8">Популярные решения</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="bestsellerGrid"></div>
+            </section>
+
+            <!-- Конструктор -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 mb-16">
+                <!-- Левая колонка: выбор -->
+                <div class="lg:col-span-8 space-y-12">
+                    <div>
+                        <h3 class="text-sm font-medium text-stone-900 mb-4 uppercase tracking-wider">Формат</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <button type="button" onclick="selectCategory('bouquet')" class="cat-btn px-5 py-2.5 border border-stone-200 bg-white text-stone-600 rounded-xl text-sm transition-all hover:border-stone-300" id="cat-bouquet">Букет</button>
+                            <button type="button" onclick="selectCategory('toy')" class="cat-btn px-5 py-2.5 border border-stone-200 bg-white text-stone-600 rounded-xl text-sm transition-all hover:border-stone-300" id="cat-toy">С игрушкой</button>
+                            <button type="button" onclick="selectCategory('candy')" class="cat-btn px-5 py-2.5 border border-stone-200 bg-white text-stone-600 rounded-xl text-sm transition-all hover:border-stone-300" id="cat-candy">С конфетами</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-baseline justify-between mb-6">
+                            <h3 class="text-sm font-medium text-stone-900 uppercase tracking-wider">Цветы</h3>
+                            <span class="text-xs text-stone-400">Выберите виды и количество</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300" id="flower-roses" onclick="toggleFlower('roses')">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="font-medium text-stone-800 text-sm mb-0.5">Розы</div>
+                                        <div class="text-xs text-stone-400">от 150 ₽/шт</div>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('roses', -1)">−</button>
+                                        <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-roses">0</span>
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('roses', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <span class="px-2 py-0.5 bg-red-50 text-red-600 text-xs rounded-md border border-red-100/50 tracking-wide uppercase">Красные</span>
+                                    <span class="px-2 py-0.5 bg-stone-50 text-stone-500 text-xs rounded-md border border-stone-200/50 tracking-wide uppercase">Белые</span>
+                                </div>
+                            </div>
+
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300" id="flower-tulips" onclick="toggleFlower('tulips')">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="font-medium text-stone-800 text-sm mb-0.5">Тюльпаны</div>
+                                        <div class="text-xs text-stone-400">от 90 ₽/шт</div>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('tulips', -1)">−</button>
+                                        <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-tulips">0</span>
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('tulips', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <span class="px-2 py-0.5 bg-amber-50 text-amber-600 text-xs rounded-md border border-amber-100/50 tracking-wide uppercase">Желтые</span>
+                                </div>
+                            </div>
+
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300" id="flower-peonies" onclick="toggleFlower('peonies')">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="font-medium text-stone-800 text-sm mb-0.5">Пионы</div>
+                                        <div class="text-xs text-stone-400">от 350 ₽/шт</div>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('peonies', -1)">−</button>
+                                        <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-peonies">0</span>
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('peonies', 1)">+</button>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-0.5 bg-fuchsia-50 text-fuchsia-600 text-xs rounded-md border border-fuchsia-100/50 tracking-wide uppercase">Май-Июнь</span>
+                            </div>
+
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300" id="flower-greenery" onclick="toggleFlower('greenery')">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="font-medium text-stone-800 text-sm mb-0.5">Зелень</div>
+                                        <div class="text-xs text-stone-400">от 50 ₽/ветка</div>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('greenery', -1)">−</button>
+                                        <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-greenery">0</span>
+                                        <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeQuantity('greenery', 1)">+</button>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    <span class="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-xs rounded-md border border-emerald-100/50 tracking-wide uppercase">Эвкалипт</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-medium text-stone-900 mb-6 uppercase tracking-wider">Декор</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300 flex items-center justify-between" id="decor-wrap" onclick="toggleDecoration('wrap')">
+                                <div>
+                                    <div class="font-medium text-stone-800 text-sm mb-0.5">Упаковка</div>
+                                    <div class="text-xs text-stone-400">Крафт, фетр</div>
+                                </div>
+                                <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                    <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeDecorationQty('wrap', -1)">−</button>
+                                    <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-wrap">0</span>
+                                    <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeDecorationQty('wrap', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="flower-card border border-stone-200/70 rounded-2xl p-4 bg-white cursor-pointer hover:shadow-sm hover:border-stone-300 flex items-center justify-between" id="decor-card" onclick="toggleDecoration('card')">
+                                <div>
+                                    <div class="font-medium text-stone-800 text-sm mb-0.5">Открытка</div>
+                                    <div class="text-xs text-stone-400">С текстом</div>
+                                </div>
+                                <div class="flex items-center gap-2 bg-stone-50 p-1 rounded-lg border border-stone-100" onclick="event.stopPropagation()">
+                                    <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeDecorationQty('card', -1)">−</button>
+                                    <span class="text-xs font-medium text-stone-700 min-w-[1rem] text-center" id="qty-card">0</span>
+                                    <button class="w-6 h-6 flex items-center justify-center rounded-md text-stone-500 hover:bg-white hover:shadow-sm hover:text-stone-900 transition-all text-sm" onclick="changeDecorationQty('card', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: предпросмотр и итог -->
+                <div class="lg:col-span-4 relative">
+                    <div class="sticky top-28 space-y-6">
+                        <div class="bg-white border border-stone-200/70 rounded-3xl p-6 shadow-sm">
+                            <h3 class="font-serif text-lg tracking-tight text-stone-900 mb-5 border-b border-stone-100 pb-4">Ваш заказ</h3>
+                            <div id="previewList" class="space-y-3 mb-6 min-h-[4rem] text-sm">
+                                <p class="text-stone-400 font-light text-center py-4">Добавьте элементы слева</p>
+                            </div>
+                            <div class="space-y-4 mb-6">
+                                <label class="flex items-center justify-between cursor-pointer group">
+                                    <span class="text-sm text-stone-600 group-hover:text-stone-900 transition-colors">Доставка курьером</span>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs text-stone-400">+300 ₽</span>
+                                        <input type="checkbox" id="delivery" class="custom-checkbox" onchange="calculateTotal()">
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between cursor-pointer group">
+                                    <span class="text-sm text-stone-600 group-hover:text-stone-900 transition-colors">Срочная сборка</span>
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs text-stone-400">+20%</span>
+                                        <input type="checkbox" id="urgentBouquet" class="custom-checkbox" onchange="calculateTotal()">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="pt-5 border-t border-stone-100">
+                                <div class="flex justify-between items-end mb-6">
+                                    <span class="text-stone-500 text-sm">Итого</span>
+                                    <span id="totalPrice" class="text-2xl font-serif font-medium tracking-tight text-stone-900">0 ₽</span>
+                                </div>
+                                <button onclick="openOrderForm()" class="w-full bg-[#E11D48] text-white py-3.5 rounded-xl text-sm font-medium hover:bg-[#BE185D] transition-all shadow-sm shadow-rose-500/30 mb-3">Оформить</button>
+                                <button onclick="resetBouquet()" class="w-full text-stone-400 py-2 text-xs hover:text-stone-600 transition-colors uppercase tracking-wider">Сбросить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Страница: Калькулятор интерьера -->
+    <div id="interiorPage" class="hidden min-h-screen pt-28 pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <button onclick="backToMain()" class="mb-10 text-stone-400 hover:text-stone-800 flex items-center gap-2 transition-colors text-sm font-medium">
+                <iconify-icon icon="solar:arrow-left-linear" class="text-lg"></iconify-icon> Назад
+            </button>
+            <div class="text-center mb-16">
+                <h1 class="font-serif text-3xl md:text-5xl font-medium tracking-tight text-stone-900 mb-4">Оформление интерьера</h1>
+                <p class="text-stone-500 font-light text-base md:text-lg">Предварительный расчет стоимости проекта</p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-sm border border-stone-200/60 p-6 md:p-10">
+                <form id="interiorForm" class="space-y-12" onsubmit="event.preventDefault(); openOrderForm();">
+                    <!-- 1. Тип объекта -->
+                    <div>
+                        <label class="block text-sm font-medium text-stone-900 mb-5 uppercase tracking-wider">1. Тип объекта</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer group relative">
+                                <input type="radio" name="roomType" value="office" class="peer sr-only" checked>
+                                <div class="p-5 border border-stone-200 rounded-2xl text-center peer-checked:border-[#10B981] peer-checked:bg-[#ECFDF5] transition-all group-hover:border-stone-300 h-full flex flex-col items-center justify-center gap-3">
+                                    <iconify-icon icon="solar:sofa-linear" class="text-2xl text-stone-400 peer-checked:text-[#10B981] transition-colors"></iconify-icon>
+                                    <div class="text-xs font-medium text-stone-700 peer-checked:text-[#10B981]">Офис</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input type="radio" name="roomType" value="restaurant" class="peer sr-only">
+                                <div class="p-5 border border-stone-200 rounded-2xl text-center peer-checked:border-[#10B981] peer-checked:bg-[#ECFDF5] transition-all group-hover:border-stone-300 h-full flex flex-col items-center justify-center gap-3">
+                                    <iconify-icon icon="solar:utensils-linear" class="text-2xl text-stone-400 peer-checked:text-[#10B981] transition-colors"></iconify-icon>
+                                    <div class="text-xs font-medium text-stone-700 peer-checked:text-[#10B981]">Ресторан</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input type="radio" name="roomType" value="home" class="peer sr-only">
+                                <div class="p-5 border border-stone-200 rounded-2xl text-center peer-checked:border-[#10B981] peer-checked:bg-[#ECFDF5] transition-all group-hover:border-stone-300 h-full flex flex-col items-center justify-center gap-3">
+                                    <iconify-icon icon="solar:home-angle-linear" class="text-2xl text-stone-400 peer-checked:text-[#10B981] transition-colors"></iconify-icon>
+                                    <div class="text-xs font-medium text-stone-700 peer-checked:text-[#10B981]">Дом / Квартира</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group relative">
+                                <input type="radio" name="roomType" value="other" class="peer sr-only">
+                                <div class="p-5 border border-stone-200 rounded-2xl text-center peer-checked:border-[#10B981] peer-checked:bg-[#ECFDF5] transition-all group-hover:border-stone-300 h-full flex flex-col items-center justify-center gap-3">
+                                    <iconify-icon icon="solar:question-circle-linear" class="text-2xl text-stone-400 peer-checked:text-[#10B981] transition-colors"></iconify-icon>
+                                    <div class="text-xs font-medium text-stone-700 peer-checked:text-[#10B981]">Иной объект</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 2. Площадь -->
+                    <div>
+                        <div class="flex items-baseline justify-between mb-5">
+                            <label class="block text-sm font-medium text-stone-900 uppercase tracking-wider">2. Площадь</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="areaInput" min="1" max="500" value="50" class="w-20 px-3 py-1.5 text-right text-lg font-serif tracking-tight text-stone-900 bg-stone-50 border border-stone-200 rounded-lg focus:ring-1 focus:ring-[#10B981] focus:border-[#10B981] outline-none transition-all" oninput="syncAreaFromInput(this.value)">
+                                <span class="text-sm text-stone-500">м²</span>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="areaRange" min="1" max="500" value="50" step="1" class="w-full" oninput="syncAreaFromSlider(this.value)">
+                        </div>
+                        <div class="flex justify-between text-xs text-stone-400 mt-2 px-1">
+                            <span>1 м²</span>
+                            <span>500 м²</span>
+                        </div>
+                    </div>
+
+                    <!-- 3. Масштаб озеленения -->
+                    <div>
+                        <label class="block text-sm font-medium text-stone-900 mb-5 uppercase tracking-wider">3. Масштаб озеленения</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button type="button" onclick="selectDensity('light', 1000)" class="density-btn p-5 border border-stone-200 rounded-2xl text-left hover:border-stone-300 bg-white transition-all" id="density-light">
+                                <div class="font-medium text-stone-900 mb-1">Точечное</div>
+                                <p class="text-xs text-stone-500 leading-relaxed">Акцентные композиции в ключевых зонах</p>
+                            </button>
+                            <button type="button" onclick="selectDensity('medium', 2000)" class="density-btn p-5 border border-stone-200 rounded-2xl text-left hover:border-stone-300 bg-white transition-all" id="density-medium">
+                                <div class="font-medium text-stone-900 mb-1">Стандартное</div>
+                                <p class="text-xs text-stone-500 leading-relaxed">Заполнение нескольких зон, фотозона</p>
+                            </button>
+                            <button type="button" onclick="selectDensity('dense', 3500)" class="density-btn p-5 border border-stone-200 rounded-2xl text-left hover:border-stone-300 bg-white transition-all" id="density-dense">
+                                <div class="font-medium text-stone-900 mb-1">Плотное</div>
+                                <p class="text-xs text-stone-500 leading-relaxed">Полное флористическое покрытие пространства</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Портфолио -->
+                    <div id="portfolioSection" class="hidden pt-4 border-t border-stone-100">
+                        <label class="block text-sm font-medium text-stone-900 mb-5 uppercase tracking-wider">Примеры (<span id="densityLabel">точечное</span>)</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="portfolioGrid"></div>
+                    </div>
+
+                    <!-- 4. Опции -->
+                    <div>
+                        <label class="block text-sm font-medium text-stone-900 mb-5 uppercase tracking-wider">4. Опции</label>
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 p-4 border border-stone-200 rounded-xl cursor-pointer hover:bg-stone-50 hover:border-stone-300 transition-colors group">
+                                <input type="checkbox" id="decoratorVisit" class="custom-checkbox mt-0.5" onchange="calculateInteriorPrice()">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-stone-800 group-hover:text-stone-900">Выезд декоратора</div>
+                                    <div class="text-xs text-stone-500 mt-0.5">Осмотр и замеры (Бесплатно)</div>
+                                </div>
+                            </label>
+                            <label class="flex items-start gap-3 p-4 border border-stone-200 rounded-xl cursor-pointer hover:bg-stone-50 hover:border-stone-300 transition-colors group">
+                                <input type="checkbox" id="legalEntity" class="custom-checkbox mt-0.5" onchange="calculateInteriorPrice()">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-stone-800 group-hover:text-stone-900">Работа с юрлицом</div>
+                                    <div class="text-xs text-stone-500 mt-0.5">Договор, счёт, НДС</div>
+                                </div>
+                            </label>
+                            <label class="flex items-start gap-3 p-4 border border-stone-200 rounded-xl cursor-pointer hover:bg-stone-50 hover:border-stone-300 transition-colors group">
+                                <input type="checkbox" id="urgentInterior" class="custom-checkbox mt-0.5" onchange="calculateInteriorPrice()">
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-stone-800 group-hover:text-stone-900">Срочный проект</div>
+                                    <div class="text-xs text-stone-500 mt-0.5">Реализация за 3 дня (+20%)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Итог -->
+                    <div class="bg-stone-50 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 border border-stone-100">
+                        <div>
+                            <div class="text-xs text-stone-500 uppercase tracking-wider mb-1">Ориентировочно</div>
+                            <div class="text-3xl md:text-4xl font-serif font-medium tracking-tight text-[#10B981]" id="interiorTotalPrice">от 50 000 ₽</div>
+                        </div>
+                        <button type="submit" class="w-full md:w-auto bg-[#10B981] text-white px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-[#059669] transition-all shadow-sm shadow-emerald-500/30 whitespace-nowrap">
+                            Оставить заявку
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Форма заказа -->
+    <div id="orderFormModal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeOrderForm()" class="absolute top-5 right-5 text-stone-400 hover:text-stone-600 transition-colors p-1">
+                <iconify-icon icon="solar:close-circle-linear" class="text-2xl"></iconify-icon>
+            </button>
+            <h2 class="font-serif text-2xl font-medium tracking-tight text-stone-900 mb-6 text-center">Оформление</h2>
+            <form id="orderForm" class="space-y-4" onsubmit="submitOrder(event)">
+                <div>
+                    <input type="text" id="customerName" required class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-1 focus:ring-[#E11D48] focus:border-[#E11D48] outline-none transition-all text-sm text-stone-800 placeholder:text-stone-400" placeholder="Ваше имя">
+                </div>
+                <div>
+                    <input type="tel" id="phoneInput" required pattern="^[\d\+\s\-\(\)]{10,}$" class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-1 focus:ring-[#E11D48] focus:border-[#E11D48] outline-none transition-all text-sm text-stone-800 placeholder:text-stone-400" placeholder="Телефон *">
+                </div>
+                <div>
+                    <input type="text" id="socialInput" class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-1 focus:ring-[#E11D48] focus:border-[#E11D48] outline-none transition-all text-sm text-stone-800 placeholder:text-stone-400" placeholder="Telegram / WhatsApp / VK">
+                </div>
+                <div>
+                    <textarea id="orderComment" class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:ring-1 focus:ring-[#E11D48] focus:border-[#E11D48] outline-none transition-all text-sm text-stone-800 placeholder:text-stone-400 resize-none" rows="3" placeholder="Комментарий к заказу"></textarea>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" id="submitBtn" class="w-full bg-[#E11D48] text-white py-3.5 rounded-xl text-sm font-medium hover:bg-[#BE185D] transition-all shadow-sm shadow-rose-500/20">Подтвердить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Успех -->
+    <div id="successModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <iconify-icon icon="solar:check-circle-linear" class="text-3xl text-[#10B981]"></iconify-icon>
+            </div>
+            <h2 class="font-serif text-2xl font-medium tracking-tight text-stone-900 mb-2">Заказ принят!</h2>
+            <p class="text-sm text-stone-500 mb-8 font-light">Мы свяжемся с вами в ближайшее время для уточнения деталей.</p>
+            
+            <div class="bg-stone-50 rounded-2xl p-5 mb-6 text-left border border-stone-100">
+                <h3 class="text-xs font-medium text-stone-400 mb-3 uppercase tracking-wider">Контакты студии</h3>
+                <div class="space-y-3">
+                    <a href="tel:+79814226103" class="flex items-center gap-3 text-sm text-stone-600 hover:text-stone-900 transition-colors">
+                        <iconify-icon icon="solar:phone-linear" class="text-lg text-[#E11D48] opacity-80"></iconify-icon>
+                        <span>+7 (981) 400-00-03</span>
+                    </a>
+                    <a href="https://t.me/HnikitaH" target="_blank" class="flex items-center gap-3 text-sm text-stone-600 hover:text-stone-900 transition-colors">
+                        <iconify-icon icon="solar:letter-linear" class="text-lg text-[#E11D48] opacity-80"></iconify-icon>
+                        <span>@nwspprrt</span>
+                    </a>
+                </div>
+            </div>
+            
+            <button onclick="closeSuccessModal()" class="w-full bg-[#E11D48] text-white py-3 rounded-xl text-sm font-medium hover:bg-[#BE185D] transition-all shadow-sm shadow-rose-500/20">ОК</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Корзина -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <button onclick="toggleCart()" class="absolute top-5 right-5 text-stone-400 hover:text-stone-600 transition-colors p-1">
+                <iconify-icon icon="solar:close-circle-linear" class="text-2xl"></iconify-icon>
+            </button>
+            <h2 class="font-serif text-2xl font-medium tracking-tight text-stone-900 mb-6">Корзина</h2>
+            <div id="cartItems" class="space-y-3 mb-6 max-h-60 overflow-y-auto pr-2"></div>
+            <div class="border-t border-stone-100 pt-5">
+                <div class="flex justify-between items-end mb-6">
+                    <span class="text-stone-500 text-sm">Итого</span>
+                    <span id="cartTotal" class="text-xl font-serif font-medium tracking-tight text-stone-900">0 ₽</span>
+                </div>
+                <button onclick="openOrderFromCart()" class="w-full bg-[#E11D48] text-white py-3.5 rounded-xl text-sm font-medium hover:bg-[#BE185D] transition-all shadow-sm shadow-rose-500/20">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ГЛОБАЛЬНОЕ СОСТОЯНИЕ
+        // ==========================================
+        let cart = [];
+        let currentCategory = 'bouquet';
+        const flowerPrices = { roses: 150, tulips: 90, peonies: 350, greenery: 50 };
+        const decorationPrices = { wrap: 200, card: 100 };
+        let bouquet = { 
+            flowers: { roses: 0, tulips: 0, peonies: 0, greenery: 0 }, 
+            decorations: { wrap: 0, card: 0 } 
+        };
+        let interiorDensity = 'light', interiorRate = 1000, interiorBasePrice = 50000;
+
+        // Данные для портфолио и каталога
+        const portfolioData = { 
+            light: [
+                {title:'Ресепшн', desc:'Акцентная композиция', img:'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&q=80'}, 
+                {title:'Зона отдыха', desc:'Напольный декор', img:'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=400&q=80'}, 
+                {title:'Переговорная', desc:'Минимализм', img:'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80'}
+            ], 
+            medium: [
+                {title:'Фотозона', desc:'Стена из зелени', img:'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80'}, 
+                {title:'Ресторан', desc:'Подвесные конструкции', img:'https://images.unsplash.com/photo-1478146896981-b80c463ab234?w=400&q=80'}, 
+                {title:'Входная группа', desc:'Арка', img:'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80'}
+            ], 
+            dense: [
+                {title:'Свадьба', desc:'Полное покрытие', img:'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80'}, 
+                {title:'Сцена', desc:'Премиум', img:'https://images.unsplash.com/photo-1507699622177-98884f8279f4?w=400&q=80'}, 
+                {title:'VIP зал', desc:'Эксклюзив', img:'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&q=80'}
+            ] 
+        };
+        const catalogData = [
+            {name:'Утренняя роса', subtitle:'Белые розы, эвкалипт', price:3500, img:'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&q=80'},
+            {name:'Кармин', subtitle:'Красные розы', price:5200, img:'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=400&q=80'},
+            {name:'Пробуждение', subtitle:'Тюльпаны', price:2800, img:'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400&q=80'},
+            {name:'Симфония', subtitle:'Пионы, зелень', price:8900, img:'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80'}
+        ];
+
+        // ==========================================
+        // НАВИГАЦИЯ
+        // ==========================================
+        function selectService(service) { 
+            document.getElementById('mainSplit').classList.add('opacity-0'); 
+            setTimeout(() => { 
+                document.getElementById('mainSplit').classList.add('hidden'); 
+                document.getElementById('mainSplit').classList.remove('opacity-0'); 
+                if(service === 'bouquet') {
+                    document.getElementById('bouquetPage').classList.remove('hidden'); 
+                    renderCatalog(); 
+                } else {
+                    document.getElementById('interiorPage').classList.remove('hidden'); 
+                    calculateInteriorPrice(); 
+                }
+                window.scrollTo(0, 0); 
+            }, 500); 
+        }
+
+        function backToMain() { 
+            ['bouquetPage', 'interiorPage'].forEach(id => document.getElementById(id).classList.add('hidden')); 
+            const main = document.getElementById('mainSplit'); 
+            main.classList.remove('hidden'); 
+            setTimeout(() => main.classList.remove('opacity-0'), 50); 
+            window.scrollTo(0, 0); 
+        }
+
+        // ==========================================
+        // КОНСТРУКТОР БУКЕТОВ
+        // ==========================================
+        function selectCategory(category) { 
+            currentCategory = category; 
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('border-stone-800', 'text-stone-900', 'shadow-sm');
+                btn.classList.add('border-stone-200', 'text-stone-600');
+            });
+            const active = document.getElementById(`cat-${category}`); 
+            active.classList.add('border-stone-800', 'text-stone-900', 'shadow-sm'); 
+            active.classList.remove('border-stone-200', 'text-stone-600'); 
+        }
+
+        function toggleFlower(type) { 
+            document.getElementById(`flower-${type}`).classList.toggle('selected'); 
+        }
+
+        function changeQuantity(type, delta) { 
+            bouquet.flowers[type] = Math.max(0, bouquet.flowers[type] + delta); 
+            document.getElementById(`qty-${type}`).textContent = bouquet.flowers[type]; 
+            const card = document.getElementById(`flower-${type}`);
+            if(bouquet.flowers[type] > 0) {
+                card.classList.add('border-[#E11D48]', 'bg-[#FFE4E6]');
+                card.classList.remove('border-stone-200/70', 'bg-white');
+            } else {
+                card.classList.remove('border-[#E11D48]', 'bg-[#FFE4E6]');
+                card.classList.add('border-stone-200/70', 'bg-white');
+            }
+            updatePreview(); 
+            calculateTotal(); 
+        }
+
+        function toggleDecoration(type) { 
+            document.getElementById(`decor-${type}`).classList.toggle('selected'); 
+        }
+
+        function changeDecorationQty(type, delta) { 
+            bouquet.decorations[type] = Math.max(0, bouquet.decorations[type] + delta); 
+            document.getElementById(`qty-${type}`).textContent = bouquet.decorations[type]; 
+            const card = document.getElementById(`decor-${type}`);
+            if(bouquet.decorations[type] > 0) {
+                card.classList.add('border-[#E11D48]', 'bg-[#FFE4E6]');
+                card.classList.remove('border-stone-200/70', 'bg-white');
+            } else {
+                card.classList.remove('border-[#E11D48]', 'bg-[#FFE4E6]');
+                card.classList.add('border-stone-200/70', 'bg-white');
+            }
+            updatePreview(); 
+            calculateTotal(); 
+        }
+
+        function updatePreview() { 
+            const list = document.getElementById('previewList'); 
+            let items = [], names = {roses:'Розы', tulips:'Тюльпаны', peonies:'Пионы', greenery:'Зелень', wrap:'Упаковка', card:'Открытка'}; 
+            Object.entries(bouquet.flowers).forEach(([t, q]) => { if(q > 0) items.push({name: names[t], qty: q, price: flowerPrices[t] * q}); }); 
+            Object.entries(bouquet.decorations).forEach(([t, q]) => { if(q > 0) items.push({name: names[t], qty: q, price: decorationPrices[t] * q}); }); 
+            
+            list.innerHTML = items.length === 0 
+                ? '<p class="text-stone-400 font-light text-center py-4">Добавьте элементы слева</p>' 
+                : items.map(x => `<div class="flex justify-between items-center py-1"><span class="text-stone-600">${x.name} <span class="text-stone-400 text-xs ml-1">× ${x.qty}</span></span><span class="font-medium text-stone-900">${x.price} ₽</span></div>`).join(''); 
+        }
+
+        function calculateTotal() { 
+            let total = 0; 
+            Object.entries(bouquet.flowers).forEach(([k, v]) => total += flowerPrices[k] * v); 
+            Object.entries(bouquet.decorations).forEach(([k, v]) => total += decorationPrices[k] * v); 
+            if(document.getElementById('delivery')?.checked) total += 300; 
+            if(document.getElementById('urgentBouquet')?.checked) total *= 1.2; 
+            document.getElementById('totalPrice').textContent = `${Math.round(total).toLocaleString('ru-RU')} ₽`; 
+            return Math.round(total); 
+        }
+
+        function resetBouquet() { 
+            Object.keys(bouquet.flowers).forEach(t => {
+                bouquet.flowers[t] = 0;
+                document.getElementById(`qty-${t}`).textContent = '0';
+                const c = document.getElementById(`flower-${t}`);
+                c.classList.remove('border-[#E11D48]', 'bg-[#FFE4E6]');
+                c.classList.add('border-stone-200/70', 'bg-white');
+            }); 
+            Object.keys(bouquet.decorations).forEach(t => {
+                bouquet.decorations[t] = 0;
+                document.getElementById(`qty-${t}`).textContent = '0';
+                const c = document.getElementById(`decor-${t}`);
+                c.classList.remove('border-[#E11D48]', 'bg-[#FFE4E6]');
+                c.classList.add('border-stone-200/70', 'bg-white');
+            }); 
+            ['delivery', 'urgentBouquet'].forEach(id => { const e = document.getElementById(id); if(e) e.checked = false; }); 
+            updatePreview(); 
+            calculateTotal(); 
+        }
+
+        function renderCatalog() { 
+            document.getElementById('bestsellerGrid').innerHTML = catalogData.map(i => `
+                <div class="group border border-stone-200/60 rounded-2xl overflow-hidden bg-white hover:border-stone-300 hover:shadow-sm transition-all duration-300">
+                    <div class="relative h-56 overflow-hidden bg-stone-100">
+                        <img src="${i.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-serif text-base font-medium tracking-tight text-stone-900 mb-1">${i.name}</h3>
+                        <p class="text-xs text-stone-500 mb-4 font-light truncate">${i.subtitle}</p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="text-sm font-medium text-stone-900">${i.price.toLocaleString('ru-RU')} ₽</span>
+                            <button onclick="addToCart('${i.name}', ${i.price})" class="flex items-center justify-center w-8 h-8 bg-stone-50 rounded-lg text-stone-500 hover:bg-[#E11D48] hover:text-white transition-colors border border-stone-200/60 hover:border-transparent">
+                                <iconify-icon icon="solar:cart-plus-linear" class="text-lg"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join(''); 
+        }
+
+        // ==========================================
+        // КОРЗИНА
+        // ==========================================
+        function addToCart(name, price) { 
+            const existing = cart.find(item => item.name === name); 
+            if(existing) existing.qty++; else cart.push({name: name, price: price, qty: 1}); 
+            updateCartBadge(); 
+            showToast(`✅ ${name} добавлен в корзину`);
+        }
+
+        function updateCartBadge() { 
+            const badge = document.getElementById('cartBadge'); 
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0); 
+            badge.textContent = totalQty; 
+            badge.classList.toggle('hidden', totalQty === 0); 
+        }
+
+        function toggleCart() { 
+            const modal = document.getElementById('cartModal'); 
+            if(modal.classList.contains('active')) {
+                modal.classList.remove('active'); 
+            } else {
+                renderCart(); 
+                modal.classList.add('active'); 
+            } 
+        }
+
+        function renderCart() { 
+            const container = document.getElementById('cartItems'); 
+            const totalEl = document.getElementById('cartTotal'); 
+            if(!cart.length) {
+                container.innerHTML = '<p class="text-stone-400 text-center py-8 font-light text-sm">Корзина пуста</p>';
+                totalEl.textContent = '0 ₽';
+                return;
+            }
+            let total = 0; 
+            container.innerHTML = cart.map(item => { 
+                total += item.price * item.qty; 
+                return `<div class="flex items-center justify-between p-3 border border-stone-100 rounded-xl bg-stone-50/50"><div><div class="text-sm font-medium text-stone-800">${item.name}</div><div class="text-xs text-stone-500 mt-0.5">${item.qty} × ${item.price} ₽</div></div><div class="text-sm font-medium text-stone-900">${item.price * item.qty} ₽</div></div>`; 
+            }).join(''); 
+            totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`; 
+        }
+
+        // ==========================================
+        // КАЛЬКУЛЯТОР ИНТЕРЬЕРА
+        // ==========================================
+        function syncAreaFromSlider(value) { 
+            const num = parseInt(value) || 1; 
+            document.getElementById('areaInput').value = num; 
+            calculateInteriorPrice(); 
+        }
+
+        function syncAreaFromInput(value) { 
+            let num = parseInt(value); 
+            if(isNaN(num) || num < 1) num = 1; 
+            if(num > 500) num = 500; 
+            document.getElementById('areaRange').value = num; 
+            calculateInteriorPrice(); 
+        }
+
+        function selectDensity(type, rate) { 
+            interiorDensity = type; 
+            interiorRate = rate; 
+            document.querySelectorAll('.density-btn').forEach(btn => { 
+                btn.classList.remove('border-[#10B981]', 'bg-[#ECFDF5]', 'selected'); 
+                btn.classList.add('border-stone-200', 'bg-white'); 
+            });
+            const activeBtn = document.getElementById(`density-${type}`);
+            activeBtn.classList.add('border-[#10B981]', 'bg-[#ECFDF5]', 'selected'); 
+            activeBtn.classList.remove('border-stone-200', 'bg-white');
+            document.getElementById('densityLabel').textContent = {light:'точечное', medium:'стандартное', dense:'плотное'}[type]; 
+            showPortfolio(type); 
+            calculateInteriorPrice(); 
+        }
+
+        function showPortfolio(type) { 
+            const section = document.getElementById('portfolioSection'); 
+            const grid = document.getElementById('portfolioGrid'); 
+            section.classList.remove('hidden'); 
+            grid.innerHTML = portfolioData[type].map(item => `
+                <div class="portfolio-item bg-white border border-stone-200/60 rounded-2xl overflow-hidden group">
+                    <div class="overflow-hidden h-36">
+                        <img src="${item.img}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="p-4">
+                        <div class="text-sm font-medium text-stone-900 mb-0.5">${item.title}</div>
+                        <div class="text-xs text-stone-500 font-light truncate">${item.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            grid.querySelectorAll('.portfolio-item').forEach(el => el.classList.remove('show'));
+            setTimeout(() => { 
+                grid.querySelectorAll('.portfolio-item').forEach((item, idx) => { 
+                    setTimeout(() => item.classList.add('show'), idx * 100); 
+                }); 
+            }, 50); 
+        }
+
+        function calculateInteriorPrice() { 
+            const area = parseInt(document.getElementById('areaRange').value) || 1; 
+            let price = area * interiorRate; 
+            if(document.getElementById('urgentInterior')?.checked) price *= 1.2; 
+            interiorBasePrice = Math.max(5000, Math.round(price)); 
+            document.getElementById('interiorTotalPrice').textContent = `от ${interiorBasePrice.toLocaleString('ru-RU')} ₽`; 
+            return interiorBasePrice; 
+        }
+
+        // ==========================================
+        // ОФОРМЛЕНИЕ ЗАКАЗА
+        // ==========================================
+        function openOrderForm() { 
+            let orderSummary = '';
+            let orderTotal = 0;
+            
+            if(!document.getElementById('bouquetPage').classList.contains('hidden')) {
+                orderTotal = calculateTotal();
+                if(orderTotal === 0 && !cart.length) {
+                    showToast('⚠️ Добавьте хотя бы один элемент в заказ');
+                    return;
+                }
+                
+                const bouquetItems = [];
+                Object.entries(bouquet.flowers).forEach(([type, qty]) => {
+                    if(qty > 0) bouquetItems.push(`${type}: ${qty} шт.`);
+                });
+                Object.entries(bouquet.decorations).forEach(([type, qty]) => {
+                    if(qty > 0) bouquetItems.push(`${type}: ${qty} шт.`);
+                });
+                
+                orderSummary = `🌸 БУКЕТ (Конструктор)\n`;
+                if(bouquetItems.length > 0) {
+                    orderSummary += `Состав: ${bouquetItems.join(', ')}\n`;
+                }
+                if(document.getElementById('delivery')?.checked) orderSummary += `🚚 Доставка: +300 ₽\n`;
+                if(document.getElementById('urgentBouquet')?.checked) orderSummary += `⚡ Срочно: +20%\n`;
+                orderSummary += `💰 Итого: ${orderTotal} ₽`;
+                
+            } else if(!document.getElementById('interiorPage').classList.contains('hidden')) {
+                const area = document.getElementById('areaInput').value || 50;
+                orderTotal = calculateInteriorPrice();
+                
+                orderSummary = `🏢 ИНТЕРЬЕР (Калькулятор)\n`;
+                orderSummary += `Площадь: ${area} м²\n`;
+                orderSummary += `Густота: ${document.getElementById('densityLabel').textContent}\n`;
+                
+                const options = [];
+                if(document.getElementById('decoratorVisit')?.checked) options.push('Выезд декоратора');
+                if(document.getElementById('legalEntity')?.checked) options.push('Работа с юрлицом');
+                if(document.getElementById('urgentInterior')?.checked) options.push('Срочно (+20%)');
+                
+                if(options.length > 0) {
+                    orderSummary += `Опции: ${options.join(', ')}\n`;
+                }
+                orderSummary += `💰 Ориентировочно: от ${orderTotal} ₽`;
+                
+            } else {
+                if(!cart.length) {
+                    showToast('⚠️ Корзина пуста');
+                    return;
+                }
+                orderTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                
+                orderSummary = `🛒 КОРЗИНА\n`;
+                cart.forEach(item => {
+                    orderSummary += `• ${item.name} × ${item.qty} = ${item.price * item.qty} ₽\n`;
+                });
+                orderSummary += `💰 Итого: ${orderTotal} ₽`;
+            }
+            
+            document.getElementById('orderComment').value = orderSummary;
+            document.getElementById('orderFormModal').classList.add('active');
+            
+            setTimeout(() => {
+                document.getElementById('customerName')?.focus();
+            }, 300);
+        }
+
+        function openOrderFromCart() { 
+            openOrderForm();
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function closeOrderForm() { 
+            document.getElementById('orderFormModal').classList.remove('active');
+            document.getElementById('orderForm').reset();
+        }
+
+        function submitOrder(e) { 
+            e.preventDefault();
+            
+            const phone = document.getElementById('phoneInput').value.trim();
+            if(!phone || phone.length < 10) {
+                showToast('⚠️ Введите корректный номер телефона');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            const orderData = {
+                customer: {
+                    name: document.getElementById('customerName').value.trim(),
+                    phone: phone,
+                    social: document.getElementById('socialInput').value.trim()
+                },
+                order: {
+                    comment: document.getElementById('orderComment').value,
+                    timestamp: new Date().toISOString(),
+                    source: !document.getElementById('bouquetPage').classList.contains('hidden') ? 'bouquet_constructor' : 
+                           !document.getElementById('interiorPage').classList.contains('hidden') ? 'interior_calculator' : 'cart'
+                },
+                bouquet: JSON.parse(JSON.stringify(bouquet)),
+                interior: {
+                    density: interiorDensity,
+                    area: document.getElementById('areaInput').value,
+                    options: {
+                        decoratorVisit: document.getElementById('decoratorVisit')?.checked,
+                        legalEntity: document.getElementById('legalEntity')?.checked,
+                        urgent: document.getElementById('urgentInterior')?.checked
+                    }
+                },
+                cart: JSON.parse(JSON.stringify(cart))
+            };
+            
+            console.log('📦 НОВЫЙ ЗАКАЗ:', orderData);
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                
+                closeOrderForm();
+                document.getElementById('successModal').classList.add('active');
+                
+                cart = [];
+                updateCartBadge();
+                resetBouquet();
+                
+            }, 1500);
+        }
+
+        function closeSuccessModal() { 
+            document.getElementById('successModal').classList.remove('active'); 
+            backToMain(); 
+            document.getElementById('orderForm')?.reset();
+        }
+
+        // ==========================================
+        // УВЕДОМЛЕНИЯ
+        // ==========================================
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // ==========================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => { 
+            selectCategory('bouquet'); 
+            selectDensity('light', 1000); 
+            renderCatalog();
+            
+            document.querySelectorAll('.modal').forEach(modal => { 
+                modal.addEventListener('click', (e) => { 
+                    if(e.target === modal) {
+                        if(modal.id === 'orderFormModal') closeOrderForm();
+                        else if(modal.id === 'successModal') closeSuccessModal();
+                        else if(modal.id === 'cartModal') toggleCart();
+                    }
+                }); 
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape') {
+                    document.querySelectorAll('.modal.active').forEach(modal => {
+                        if(modal.id === 'orderFormModal') closeOrderForm();
+                        else if(modal.id === 'successModal') closeSuccessModal();
+                        else if(modal.id === 'cartModal') toggleCart();
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
